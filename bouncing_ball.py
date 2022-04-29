@@ -1,11 +1,12 @@
 from tkinter import *
 from typing import List, Any
-
+import time
 import ball
 from ball import *
 import random
 from random import sample
 from math import sqrt
+from collections import deque
 
 POPULATION = 50
 W_WIDTH = 800
@@ -58,7 +59,10 @@ def main():
     # Place the preferable healthy balls and infected balls on the canvas
     # ball_position = {}
     infected = []
+    infected_queue = []
+    recovered = []
     ball_position = []
+    start_time = time.time()
     for i in range(POPULATION + INFECTED_CASE):
         x_coord, y_coord = random.randint(BALL_OFFSET, W_WIDTH - BALL_SIZE - 1), \
                            random.randint(BALL_OFFSET, W_HEIGHT - BALL_SIZE - 1)
@@ -69,7 +73,13 @@ def main():
         else:
             # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, INFECTED)
             ball_position.append(Ball(canvas, x_coord, y_coord, 10, dx, dy, INFECTED))
+            cur_time = time.time()
+            print("123")
+            print(cur_time)
+            print("456")
             infected.append(i+1)  # The
+            infected_queue.append([i+1, cur_time])
+
         print(ball_position[i], ball_position[i].x, ball_position[i].y)
         overlap_balls = canvas.find_overlapping(*canvas.bbox(ball_position[i].image))
 
@@ -88,10 +98,17 @@ def main():
         # for key, val in ball_position.items():
         #     ball_position[key].move()
 
+
+        # define calculate timer
+
+
+
         # Have all balls moving
         for i in range(len(ball_position)):
             ball_position[i].move()
 
+            # define calculate timer
+            timer = time.time()
             # Ball collision detection
             collide = list(canvas.find_overlapping(*canvas.bbox(ball_position[i].image)))
             if len(collide) >= 2:
@@ -115,6 +132,12 @@ def main():
                         canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED)
                         infected.append(collide[m])
                 # print(infected)
+            while infected_queue and timer-5 >= infected_queue[0][1]:
+                print("check")
+                infected_queue.pop(0)
+                cur_ball = infected.pop(0)
+                canvas.itemconfig(ball_position[cur_ball-1].image, fill=RECOVERED)
+                recovered.append(cur_ball)
 
         window.update()
 
