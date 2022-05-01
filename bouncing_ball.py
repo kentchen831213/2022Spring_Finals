@@ -129,10 +129,13 @@ def main():
                         if infected[k] in collide:
                             collide.remove(infected[k])
                     for m in range(len(collide)):
-                        canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED)
-                        infected.append(collide[m])
+                        if collide[m] not in recovered:
+                            canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED)
+                            infected_time = time.time()
+                            infected.append(collide[m])
+                            infected_queue.append([collide[m], infected_time])
                 # print(infected)
-            while infected_queue and timer-5 >= infected_queue[0][1]:
+            while infected_queue and timer-10 >= infected_queue[0][1]:
                 print("check")
                 infected_queue.pop(0)
                 cur_ball = infected.pop(0)
