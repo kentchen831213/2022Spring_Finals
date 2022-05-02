@@ -8,15 +8,16 @@ from random import sample
 from math import sqrt
 from collections import deque
 
-POPULATION = 50
-W_WIDTH = 800
-W_HEIGHT = 600
+POPULATION = 100
+W_WIDTH = 1000
+W_HEIGHT = 800
 BALL_OFFSET = 1
 BALL_SIZE = 5
-X_SPEED = 1
+X_SPEED = 2
 Y_SPEED = 2
+RECOVER_TIME = 10
 FRAME_RATE = 1 / 240
-INFECTED_CASE = 2
+INFECTED_CASE = 1
 MASK_PROTECTION_RATE = 0.8
 # color codes:
 HEALTHY = '#aac6ca'
@@ -49,6 +50,11 @@ def is_ball_collision(the_canvas, ball_coord: list):
         collide_ball_id = the_canvas.find_overlapping(*the_canvas.bbox(ball_coord[i].image))
 
 
+def close_window(root):
+
+    root.destroy()
+
+
 # hypothesis2:  testing how many wearing mask can prevent epidemic
 def mask_test():
 
@@ -70,8 +76,8 @@ def prepare_graph(curcanvas, having_mask, vaccine1):
         if i < POPULATION:
             # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, HEALTHY)
             ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, HEALTHY, having_mask[i], VACCINE))
-            print("test123")
-            print(having_mask[i])
+            # print("test123")
+            # print(having_mask[i])
             if having_mask[i]:
                 mask.append(i+1)
         else:
@@ -98,11 +104,10 @@ def prepare_graph(curcanvas, having_mask, vaccine1):
 def draw_graph(number_infect):
 
     """
-
     :param number_infect: the number of infected people
     :return: [max_infect_time], calculate the max infected people and correspond time
     """
-    while len(infected)>0:
+    while len(infected) > 0:
         window.after(1)  # the tkinter built-in delay function, the frame is updated 1 frame/ms
         # for key, val in ball_position.items():
         #     ball_position[key].move()
@@ -138,23 +143,26 @@ def draw_graph(number_infect):
                                 infected_rate = [0, 1]
                                 mask_list = random.choices(infected_rate, weights=[MASK_PROTECTION_RATE, 1-MASK_PROTECTION_RATE])
                                 if mask_list[0]:
-                                    print("check")
-                                    print(mask_list[0])
+                                    # print("check")
+                                    # print(mask_list[0])
                                     canvas.itemconfig(ball_position[collide[m] - 1].image, fill=INFECTED)
                                     infected_time = time.time()
                                     infected.append(collide[m])
                                     infected_queue.append([collide[m], infected_time])
+                                    # update the current max number of infected people
                                     if len(infected) > number_infect:
                                         number_infect = len(infected)
                                         max_time = time.time()
-                                        max_infect_time = [(number_infect,max_time)]
+                                        max_infect_time = [(number_infect, max_time)]
                             else:
                                 canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED)
                                 infected_time = time.time()
                                 infected.append(collide[m])
                                 infected_queue.append([collide[m], infected_time])
                 # print(infected)
-            while infected_queue and timer-10 >= infected_queue[0][1]:
+
+            # infected people while be recovered in 10 sec
+            while infected_queue and timer-RECOVER_TIME >= infected_queue[0][1]:
                 infected_queue.pop(0)
                 cur_ball = infected.pop(0)
                 canvas.itemconfig(ball_position[cur_ball-1].image, fill=RECOVERED)
@@ -162,34 +170,51 @@ def draw_graph(number_infect):
 
         window.update()
 
+    close_window(window)
     window.mainloop()
     return max_infect_time
 
 
 if __name__ == '__main__':
-    # Initialize a window
-    window = Tk()
-    window.geometry("800x600")
-    window.resizable(False, False)
 
-    # A canvas inside window
-    canvas = Canvas(window, width=W_WIDTH, height=W_HEIGHT, bg="white")
-    canvas.pack()
+    sloop = []
+    # declare plot_info
+    for i in range(5):
 
-    # Place the preferable healthy balls and infected balls on the canvas
-    # ball_position = {}
-    infected = []
-    infected_queue = []
-    recovered = []
-    ball_position = []
-    mask = []
-    max_number_infect = 0
-    start_time = time.time()
-    # prepare_graph(canvas, [0]*(POPULATION+INFECTED_CASE), 0)
+        # Initialize a window
+        window = Tk()
+        window.geometry("1000x800")
+        window.resizable(False, False)
 
-    # hypothesis2
-    mask_test()
-    max_number_infect = draw_graph(max_number_infect)
-    print("check sloop")
-    print((max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time))
+        # A canvas inside window
+        canvas = Canvas(window, width=W_WIDTH, height=W_HEIGHT, bg="white")
+        canvas.pack()
+
+        # Place the preferable healthy balls and infected balls on the canvas
+        # ball_position = {}
+        infected = []
+        infected_queue = []
+        recovered = []
+        ball_position = []
+        mask = []
+        max_number_infect = 0
+        start_time = time.time()
+        # prepare_graph(canvas, [0]*(POPULATION+INFECTED_CASE), 0)
+
+        # hypothesis2
+        mask_test()
+        max_number_infect = draw_graph(max_number_infect)
+
+        print("check {} sloop".format(i+1))
+        print((max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time))
+        cur_sloop = (max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time)
+        if sloop is None or cur_sloop < min(sloop):
+
+            # call plot_result()
+            pass
+        sloop.append(cur_sloop)
+
+    print("average sloop is {}".format(sum(sloop)/5))
+
+
 
