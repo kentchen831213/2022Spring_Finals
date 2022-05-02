@@ -1,0 +1,227 @@
+## Mask coverage rate = 0.8 <br/> Population = 100 <br/> Infected = 2
+
+```
+check 1 sloop
+4.867446583127131
+it's current smallest sloop
+check 2 sloop
+3.5886335893545076
+it's current smallest sloop
+check 3 sloop
+3.545734406728878
+it's current smallest sloop
+check 4 sloop
+2.4872921508773573
+it's current smallest sloop
+check 5 sloop
+2.194973793013942
+it's current smallest sloop
+check 6 sloop
+2.6982309468138057
+check 7 sloop
+3.5947837075252322
+check 8 sloop
+1.0181402946887124
+it's current smallest sloop
+check 9 sloop
+1.3606142028748345
+check 10 sloop
+2.915334162028191
+check 11 sloop
+2.440043610639081
+check 12 sloop
+2.0368134677835203
+check 13 sloop
+1.8728826728173638
+check 14 sloop
+3.841239044912593
+check 15 sloop
+2.541587963362283
+check 17 sloop
+0.8521454532384675
+it's current smallest sloop
+check 18 sloop
+3.717149866875245
+check 19 sloop
+4.77391033603788
+check 20 sloop
+4.331521754903728
+check 21 sloop
+3.380389485017138
+check 22 sloop
+3.473181266385454
+check 23 sloop
+3.0430876031372946
+check 24 sloop
+2.317552696071918
+check 25 sloop
+4.078697886536406
+check 26 sloop
+1.3392652724991811
+check 27 sloop
+1.2603951922374235
+check 28 sloop
+2.3874387878316763
+check 29 sloop
+2.0152393356949134
+check 30 sloop
+2.6136191963773086
+check 31 sloop
+1.6197725959728675
+check 32 sloop
+3.8919954864195554
+check 33 sloop
+3.8753972558623606
+check 34 sloop
+3.287640536509776
+check 35 sloop
+2.870915799568661
+check 36 sloop
+3.327763033475701
+check 37 sloop
+3.7061472683245973
+check 38 sloop
+2.6288845426996597
+check 39 sloop
+2.361028253033127
+check 40 sloop
+4.541455949531375
+check 41 sloop
+6.282016703491662
+check 42 sloop
+4.497578849221092
+check 43 sloop
+3.5501324054251646
+check 44 sloop
+4.923391718099385
+check 45 sloop
+2.937538256272637
+check 46 sloop
+3.543660010317123
+check 47 sloop
+5.152579611044334
+check 48 sloop
+1.3357373619681996
+check 49 sloop
+3.4540206995640528
+check 50 sloop
+1.7487953344781304
+check 51 sloop
+1.039251752088717
+check 52 sloop
+3.3010762473555806
+check 53 sloop
+3.408419987835935
+check 54 sloop
+2.5229793913104914
+check 55 sloop
+2.2798749341993503
+check 56 sloop
+2.1014593161289987
+check 57 sloop
+2.93497564103818
+check 58 sloop
+1.7310723748746712
+check 59 sloop
+1.6851213245854766
+check 60 sloop
+2.258109334418766
+check 61 sloop
+3.1870864307017057
+check 62 sloop
+3.7351024275406557
+check 63 sloop
+2.502120210456264
+check 64 sloop
+3.3335596665904195
+check 65 sloop
+1.2226036941660812
+check 66 sloop
+3.378261956236333
+check 67 sloop
+2.81788724833838
+check 68 sloop
+3.3518305969825724
+check 69 sloop
+3.212921842569814
+check 70 sloop
+2.663400951763077
+check 71 sloop
+3.4573460822263336
+check 72 sloop
+1.1658670211162276
+check 73 sloop
+2.3006278053667333
+check 74 sloop
+3.376665085244649
+check 75 sloop
+3.5548884233269957
+check 76 sloop
+3.2835150985924377
+check 77 sloop
+4.397096801648534
+check 78 sloop
+1.484495146861881
+check 79 sloop
+3.027541757790454
+check 80 sloop
+3.2816702156290556
+check 81 sloop
+4.3561276422921305
+check 82 sloop
+2.3930703584091777
+check 83 sloop
+1.3081500302530653
+check 84 sloop
+3.7486541357516208
+check 85 sloop
+3.879259660118614
+check 86 sloop
+4.722035074283616
+check 87 sloop
+4.027583051569023
+check 88 sloop
+0.896237926444157
+check 89 sloop
+4.691375802062188
+check 90 sloop
+2.204244097347584
+check 91 sloop
+3.296849017891399
+check 92 sloop
+3.775435233745372
+check 93 sloop
+2.4644037816813604
+check 94 sloop
+3.4818175795966
+check 95 sloop
+3.2513661982818176
+check 96 sloop
+4.536176356374163
+check 97 sloop
+4.250918452444306
+check 98 sloop
+2.9629617161965633
+check 99 sloop
+4.432698031253123
+check 100 sloop
+2.1395018916208985
+average sloop is 2.989394912052725
+```
+![result_1](https://user-images.githubusercontent.com/89825015/166196835-c1d24b28-b8ba-468f-8a8f-5142c5b024ea.png)
+
+![result_2](https://user-images.githubusercontent.com/89825015/166196841-c59ad7a4-e85d-4942-a3db-6bacf2e60d07.png)
+
+![result_3](https://user-images.githubusercontent.com/89825015/166196856-e0db5d02-9468-4161-b0d1-87f2a94169ae.png)
+
+![result_4](https://user-images.githubusercontent.com/89825015/166196871-4df20d2c-5355-4457-adea-bf6739aa6b5b.png)
+
+![result_5](https://user-images.githubusercontent.com/89825015/166196880-8209511c-b748-423a-9f50-78d3b7eba140.png)
+
+![result_8](https://user-images.githubusercontent.com/89825015/166196898-050b49ab-4ae2-4a76-a2d3-429792c6a506.png)
+
+![result_13](https://user-images.githubusercontent.com/89825015/166196930-45afc90d-7bfa-4f01-b075-870027190f9f.png)
+
+![result_17](https://user-images.githubusercontent.com/89825015/166196945-53124d79-9500-4aea-9598-728ad40cbb0c.png)
+
+![result_46](https://user-images.githubusercontent.com/89825015/166196953-95de348f-9211-4ad5-9282-92c7c9dfafe9.png)
