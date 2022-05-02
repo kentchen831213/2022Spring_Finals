@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from math import sqrt
 from collections import deque
 
-SIMULATION_NUM = 1
+SIMULATION_NUM = 100
 POPULATION = 100
 W_WIDTH = 1000
 W_HEIGHT = 800
@@ -18,8 +18,8 @@ BALL_SIZE = 5
 X_SPEED = 2
 Y_SPEED = 2
 RECOVER_TIME = 8
-FRAME_RATE = 1 / 240
-INFECTED_CASE = 1
+# FRAME_RATE = 1 / 240
+INFECTED_CASE = 2
 MASK_PROTECTION_RATE = 0.83
 # color codes:
 HEALTHY = '#aac6ca'
@@ -27,7 +27,7 @@ INFECTED = '#bb641d'
 RECOVERED = '#cb8ac0'
 MASK = False
 VACCINE = False
-RATE_MASK = 0.8
+RATE_MASK = 0.9
 
 
 def get_random(base_speed: int, exclude_zero=True) -> int:
@@ -131,6 +131,7 @@ def refresh_graph(number_infect):
     :param number_infect: the number of infected people
     :return: [max_infect_time], calculate the max infected people and correspond time
     """
+    max_infect_time = [(0, 0)]
     while len(infected) > 0:
         window.after(1)  # the tkinter built-in delay function, the frame is updated 1 frame/ms
         # for key, val in ball_position.items():
@@ -139,7 +140,6 @@ def refresh_graph(number_infect):
         # Have all balls moving
         for i in range(len(ball_position)):
             ball_position[i].move()
-
             # define calculate timer
             timer = time.time()
             # Ball collision detection
@@ -240,16 +240,17 @@ if __name__ == '__main__':
         mask_test()
         max_number_infect = refresh_graph(max_number_infect)
 
-        print("check {} sloop".format(i+1))
-        print((max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time), end="\n")
-        cur_sloop = (max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time)
-        if len(sloop) == 0 or cur_sloop < min(sloop):
-            print("it's current smallest sloop")
-            # call plot_result()
-            plot_result(plot_info, i)
-        sloop.append(cur_sloop)
+        if max_number_infect[0][0] == 0:
+            continue
+        else:
+            print("check {} sloop".format(i+1))
+            print((max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time), end="\n")
+            cur_sloop = (max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time)
+            if len(sloop) == 0 or cur_sloop < min(sloop):
+                print("it's current smallest sloop")
+                # call plot_result()
+                plot_result(plot_info, i)
+            sloop.append(cur_sloop)
 
     print("average sloop is {}".format(sum(sloop)/SIMULATION_NUM))
-
-
 
