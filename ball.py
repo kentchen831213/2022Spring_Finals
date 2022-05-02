@@ -32,7 +32,7 @@ def get_random_num(min_int, max_int, exclude_zero=True):
 
 
 class Ball:
-    def __init__(self, canvas, x, y, diameter, x_speed, y_speed, color):
+    def __init__(self, canvas, x, y, diameter, x_speed, y_speed, color, mask, vaccine):
         # self.ball = None
         # self.y_coord = None
         # self.x_coord = None
@@ -45,6 +45,8 @@ class Ball:
         self.image = canvas.create_oval(x, y, x + diameter, y + diameter, fill=color, width=0)
         self.x_speed = x_speed
         self.y_speed = y_speed
+        self.mask = mask
+        self.vaccine = vaccine
 
         # self.ball_position = []
         # for i in range(POPULATION + INFECTED_CASE):

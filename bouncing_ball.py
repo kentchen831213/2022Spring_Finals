@@ -13,15 +13,18 @@ W_WIDTH = 800
 W_HEIGHT = 600
 BALL_OFFSET = 1
 BALL_SIZE = 5
-X_SPEED = 2
-Y_SPEED = 3
+X_SPEED = 1
+Y_SPEED = 2
 FRAME_RATE = 1 / 240
 INFECTED_CASE = 2
-MASK_PROTECTION_RATE = 0.66
+MASK_PROTECTION_RATE = 0.8
 # color codes:
 HEALTHY = '#aac6ca'
 INFECTED = '#bb641d'
 RECOVERED = '#cb8ac0'
+MASK = False
+VACCINE = False
+RATE_MASK = 0.8
 
 
 def get_random(base_speed: int, exclude_zero=True) -> int:
@@ -46,7 +49,124 @@ def is_ball_collision(the_canvas, ball_coord: list):
         collide_ball_id = the_canvas.find_overlapping(*the_canvas.bbox(ball_coord[i].image))
 
 
-def main():
+# hypothesis2:  testing how many wearing mask can prevent epidemic
+def mask_test():
+
+    # wearing mask or not
+    rate_list = [0, 1]
+
+    # define a mask_list
+    mask_list = random.choices(rate_list, weights=[1-RATE_MASK, RATE_MASK], k=POPULATION+INFECTED_CASE)
+    prepare_graph(canvas, mask_list, 0)
+
+
+def prepare_graph(curcanvas, having_mask, vaccine1):
+
+    start_time = time.time()
+    for i in range(POPULATION + INFECTED_CASE):
+        x_coord, y_coord = random.randint(BALL_OFFSET, W_WIDTH - BALL_SIZE - 1), \
+                           random.randint(BALL_OFFSET, W_HEIGHT - BALL_SIZE - 1)
+        dx, dy = get_random(X_SPEED, True), get_random(Y_SPEED, True)
+        if i < POPULATION:
+            # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, HEALTHY)
+            ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, HEALTHY, having_mask[i], VACCINE))
+            print("test123")
+            print(having_mask[i])
+            if having_mask[i]:
+                mask.append(i+1)
+        else:
+            # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, INFECTED)
+            ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, INFECTED, having_mask[i], VACCINE))
+            cur_time = time.time()
+            infected.append(i + 1)  # The
+            infected_queue.append([i + 1, cur_time])
+
+        # print(ball_position[i], ball_position[i].x, ball_position[i].y)
+        overlap_balls = curcanvas.find_overlapping(*curcanvas.bbox(ball_position[i].image))
+
+        # Replace the ball that is overlapping with another
+        if len(overlap_balls) >= 2:  # The length of tuple suggested an overlap issue between two or more balls
+            # Move the last rendered ball to a new random location
+            curcanvas.moveto(overlap_balls[1],
+                          x=random.randint(BALL_OFFSET, W_WIDTH - BALL_SIZE - 1),
+                          y=random.randint(BALL_OFFSET, W_HEIGHT - BALL_SIZE - 1))
+
+        # print(overlap_balls, len(overlap_balls))
+    # print("end")
+
+
+def draw_graph(number_infect):
+
+    """
+
+    :param number_infect: the number of infected people
+    :return: [max_infect_time], calculate the max infected people and correspond time
+    """
+    while len(infected)>0:
+        window.after(1)  # the tkinter built-in delay function, the frame is updated 1 frame/ms
+        # for key, val in ball_position.items():
+        #     ball_position[key].move()
+
+        # Have all balls moving
+        for i in range(len(ball_position)):
+            ball_position[i].move()
+
+            # define calculate timer
+            timer = time.time()
+            # Ball collision detection
+            collide = list(canvas.find_overlapping(*canvas.bbox(ball_position[i].image)))
+            if len(collide) >= 2:
+                # When collided, expected ball to bounce off
+                ball_position[i].x_speed *= -1
+                ball_position[i].y_speed *= -1
+                # print(collide, ball_position[collide[0] - 1].x_speed, ball_position[collide[0] - 1].y_speed,
+                #       ball_position[collide[1] - 1].x_speed, ball_position[collide[1] - 1].y_speed)
+                # for j in range(len(collide)):
+                #     ball_position[collide[j] - 1].x_speed *= -1
+                #     ball_position[collide[j] - 1].y_speed *= -1
+
+                # Check if the infected ball(s) is involved in a collision
+                check = any(ball_id in collide for ball_id in infected)
+                if check:
+                    # Once confirmed, removed the infected ones since
+                    for k in range(len(infected)):
+                        if infected[k] in collide:
+                            collide.remove(infected[k])
+                    for m in range(len(collide)):
+                        if collide[m] not in recovered:
+                            if collide[m] in mask:
+                                infected_rate = [0, 1]
+                                mask_list = random.choices(infected_rate, weights=[MASK_PROTECTION_RATE, 1-MASK_PROTECTION_RATE])
+                                if mask_list[0]:
+                                    print("check")
+                                    print(mask_list[0])
+                                    canvas.itemconfig(ball_position[collide[m] - 1].image, fill=INFECTED)
+                                    infected_time = time.time()
+                                    infected.append(collide[m])
+                                    infected_queue.append([collide[m], infected_time])
+                                    if len(infected) > number_infect:
+                                        number_infect = len(infected)
+                                        max_time = time.time()
+                                        max_infect_time = [(number_infect,max_time)]
+                            else:
+                                canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED)
+                                infected_time = time.time()
+                                infected.append(collide[m])
+                                infected_queue.append([collide[m], infected_time])
+                # print(infected)
+            while infected_queue and timer-10 >= infected_queue[0][1]:
+                infected_queue.pop(0)
+                cur_ball = infected.pop(0)
+                canvas.itemconfig(ball_position[cur_ball-1].image, fill=RECOVERED)
+                recovered.append(cur_ball)
+
+        window.update()
+
+    window.mainloop()
+    return max_infect_time
+
+
+if __name__ == '__main__':
     # Initialize a window
     window = Tk()
     window.geometry("800x600")
@@ -62,90 +182,14 @@ def main():
     infected_queue = []
     recovered = []
     ball_position = []
+    mask = []
+    max_number_infect = 0
     start_time = time.time()
-    for i in range(POPULATION + INFECTED_CASE):
-        x_coord, y_coord = random.randint(BALL_OFFSET, W_WIDTH - BALL_SIZE - 1), \
-                           random.randint(BALL_OFFSET, W_HEIGHT - BALL_SIZE - 1)
-        dx, dy = get_random(X_SPEED, True), get_random(Y_SPEED, True)
-        if i < POPULATION:
-            # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, HEALTHY)
-            ball_position.append(Ball(canvas, x_coord, y_coord, 10, dx, dy, HEALTHY))
-        else:
-            # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, INFECTED)
-            ball_position.append(Ball(canvas, x_coord, y_coord, 10, dx, dy, INFECTED))
-            cur_time = time.time()
-            print("123")
-            print(cur_time)
-            print("456")
-            infected.append(i+1)  # The
-            infected_queue.append([i+1, cur_time])
+    # prepare_graph(canvas, [0]*(POPULATION+INFECTED_CASE), 0)
 
-        print(ball_position[i], ball_position[i].x, ball_position[i].y)
-        overlap_balls = canvas.find_overlapping(*canvas.bbox(ball_position[i].image))
+    # hypothesis2
+    mask_test()
+    max_number_infect = draw_graph(max_number_infect)
+    print("check sloop")
+    print((max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time))
 
-        # Replace the ball that is overlapping with another
-        if len(overlap_balls) >= 2:  # The length of tuple suggested an overlap issue between two or more balls
-            # Move the last rendered ball to a new random location
-            canvas.moveto(overlap_balls[1],
-                          x=random.randint(BALL_OFFSET, W_WIDTH - BALL_SIZE - 1),
-                          y=random.randint(BALL_OFFSET, W_HEIGHT - BALL_SIZE - 1))
-
-        print(overlap_balls, len(overlap_balls))
-    print("end")
-
-    while True:
-        window.after(1)  # the tkinter built-in delay function, the frame is updated 1 frame/ms
-        # for key, val in ball_position.items():
-        #     ball_position[key].move()
-
-
-        # define calculate timer
-
-
-
-        # Have all balls moving
-        for i in range(len(ball_position)):
-            ball_position[i].move()
-
-            # define calculate timer
-            timer = time.time()
-            # Ball collision detection
-            collide = list(canvas.find_overlapping(*canvas.bbox(ball_position[i].image)))
-            if len(collide) >= 2:
-                # When collided, expected ball to bounce off
-                ball_position[i].x_speed *= -1
-                ball_position[i].y_speed *= -1
-                print(collide, ball_position[collide[0] - 1].x_speed, ball_position[collide[0] - 1].y_speed,
-                      ball_position[collide[1] - 1].x_speed, ball_position[collide[1] - 1].y_speed)
-                # for j in range(len(collide)):
-                #     ball_position[collide[j] - 1].x_speed *= -1
-                #     ball_position[collide[j] - 1].y_speed *= -1
-
-                # Check if the infected ball(s) is involved in a collision
-                check = any(ball_id in collide for ball_id in infected)
-                if check:
-                    # Once confirmed, removed the infected ones since
-                    for k in range(len(infected)):
-                        if infected[k] in collide:
-                            collide.remove(infected[k])
-                    for m in range(len(collide)):
-                        if collide[m] not in recovered:
-                            canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED)
-                            infected_time = time.time()
-                            infected.append(collide[m])
-                            infected_queue.append([collide[m], infected_time])
-                # print(infected)
-            while infected_queue and timer-10 >= infected_queue[0][1]:
-                print("check")
-                infected_queue.pop(0)
-                cur_ball = infected.pop(0)
-                canvas.itemconfig(ball_position[cur_ball-1].image, fill=RECOVERED)
-                recovered.append(cur_ball)
-
-        window.update()
-
-    window.mainloop()
-
-
-if __name__ == '__main__':
-    main()
