@@ -5,9 +5,11 @@ import ball
 from ball import *
 import random
 from random import sample
+import matplotlib.pyplot as plt
 from math import sqrt
 from collections import deque
 
+SIMULATION_NUM = 1
 POPULATION = 100
 W_WIDTH = 1000
 W_HEIGHT = 800
@@ -15,10 +17,10 @@ BALL_OFFSET = 1
 BALL_SIZE = 5
 X_SPEED = 2
 Y_SPEED = 2
-RECOVER_TIME = 10
+RECOVER_TIME = 8
 FRAME_RATE = 1 / 240
 INFECTED_CASE = 1
-MASK_PROTECTION_RATE = 0.8
+MASK_PROTECTION_RATE = 0.83
 # color codes:
 HEALTHY = '#aac6ca'
 INFECTED = '#bb641d'
@@ -45,13 +47,12 @@ def get_random(base_speed: int, exclude_zero=True) -> int:
     return sample(random_speed_list, 1).pop()
 
 
-def is_ball_collision(the_canvas, ball_coord: list):
-    for i in range(len(ball_coord)):
-        collide_ball_id = the_canvas.find_overlapping(*the_canvas.bbox(ball_coord[i].image))
+# def is_ball_collision(the_canvas, ball_coord: list):
+#     for i in range(len(ball_coord)):
+#         collide_ball_id = the_canvas.find_overlapping(*the_canvas.bbox(ball_coord[i].image))
 
 
 def close_window(root):
-
     root.destroy()
 
 
@@ -101,8 +102,31 @@ def prepare_graph(curcanvas, having_mask, vaccine1):
     # print("end")
 
 
-def draw_graph(number_infect):
+def update_record(record: dict, curr_infected: list, curr_recovered: list):
+    record["frame"] += 1
+    record["timeline"].append(record["frame"])
+    record["curr_infected"].append(len(curr_infected))
+    record["curr_recovered"].append(len(curr_recovered))
+    record["curr_healthy"].append((POPULATION+INFECTED_CASE)-len(curr_infected)-len(curr_recovered))
 
+
+def plot_result(record: dict, simulation_number):
+    plt.figure(figsize=(15, 8))
+    plt.plot(record["timeline"], record["curr_infected"], color=INFECTED, label="Infected")
+    plt.plot(record["timeline"], record["curr_recovered"], color=RECOVERED, label="Recovered")
+    plt.plot(record["timeline"], record["curr_healthy"], color=HEALTHY, label="Healthy")
+    plt.xlabel("Frames elapsed")
+    plt.ylabel("Number of cases")
+    plt.figtext(0.02, 0.02,
+                s="Mask-wearing percentage: {0}\nMask protection rate: {1}".format(RATE_MASK, MASK_PROTECTION_RATE))
+    plt.title("Initial healthy: {0}\nInitial infected: {1}".format(POPULATION, INFECTED_CASE), loc="left")
+    plt.title("Change over frames {}".format(simulation_number+1))
+    plt.legend(bbox_to_anchor=(1.01, 1))
+    plt.savefig("result_graph/result_{}.png".format(simulation_number+1))
+    # plt.show()
+
+
+def refresh_graph(number_infect):
     """
     :param number_infect: the number of infected people
     :return: [max_infect_time], calculate the max infected people and correspond time
@@ -146,6 +170,7 @@ def draw_graph(number_infect):
                                     # print("check")
                                     # print(mask_list[0])
                                     canvas.itemconfig(ball_position[collide[m] - 1].image, fill=INFECTED)
+                                    # plot_info["total_healthy"] -= len(infected)
                                     infected_time = time.time()
                                     infected.append(collide[m])
                                     infected_queue.append([collide[m], infected_time])
@@ -159,6 +184,11 @@ def draw_graph(number_infect):
                                 infected_time = time.time()
                                 infected.append(collide[m])
                                 infected_queue.append([collide[m], infected_time])
+                                if len(infected) > number_infect:
+                                    number_infect = len(infected)
+                                    max_time = time.time()
+                                    max_infect_time = [(number_infect, max_time)]
+                                # plot_info["total_healthy"] -= len(infected)
                 # print(infected)
 
             # infected people while be recovered in 10 sec
@@ -168,6 +198,7 @@ def draw_graph(number_infect):
                 canvas.itemconfig(ball_position[cur_ball-1].image, fill=RECOVERED)
                 recovered.append(cur_ball)
 
+        update_record(plot_info, infected, recovered)
         window.update()
 
     close_window(window)
@@ -179,7 +210,11 @@ if __name__ == '__main__':
 
     sloop = []
     # declare plot_info
-    for i in range(5):
+
+    for i in range(SIMULATION_NUM):
+        plot_info = {"frame": 0, "timeline": [],
+                     "curr_infected": [], "curr_recovered": [],
+                     "total_healthy": POPULATION, "curr_healthy": []}
 
         # Initialize a window
         window = Tk()
@@ -203,15 +238,15 @@ if __name__ == '__main__':
 
         # hypothesis2
         mask_test()
-        max_number_infect = draw_graph(max_number_infect)
+        max_number_infect = refresh_graph(max_number_infect)
 
         print("check {} sloop".format(i+1))
-        print((max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time))
+        print((max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time), end="\n")
         cur_sloop = (max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time)
-        if sloop is None or cur_sloop < min(sloop):
-
+        if len(sloop) == 0 or cur_sloop < min(sloop):
+            print("it's current smallest sloop")
             # call plot_result()
-            pass
+            plot_result(plot_info, i)
         sloop.append(cur_sloop)
 
     print("average sloop is {}".format(sum(sloop)/5))
