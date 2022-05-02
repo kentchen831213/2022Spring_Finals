@@ -18,10 +18,7 @@ Y_SPEED = 3
 FRAME_RATE = 1 / 240
 INFECTED_CASE = 2
 MASK_PROTECTION_RATE = 0.66
-# color codes:
-HEALTHY = '#aac6ca'
-INFECTED = '#bb641d'
-RECOVERED = '#cb8ac0'
+
 
 
 def get_random_num(min_int, max_int, exclude_zero=True):

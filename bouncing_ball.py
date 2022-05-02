@@ -22,9 +22,9 @@ RECOVER_TIME = 8
 INFECTED_CASE = 2
 MASK_PROTECTION_RATE = 0.83
 # color codes:
-HEALTHY = '#aac6ca'
-INFECTED = '#bb641d'
-RECOVERED = '#cb8ac0'
+HEALTHY_COLOR = '#aac6ca'
+INFECTED_COLOR = '#bb641d'
+RECOVERED_COLOR = '#cb8ac0'
 MASK = False
 VACCINE = False
 RATE_MASK = 0.9
@@ -75,15 +75,15 @@ def prepare_graph(curcanvas, having_mask, vaccine1):
                            random.randint(BALL_OFFSET, W_HEIGHT - BALL_SIZE - 1)
         dx, dy = get_random(X_SPEED, True), get_random(Y_SPEED, True)
         if i < POPULATION:
-            # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, HEALTHY)
-            ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, HEALTHY, having_mask[i], VACCINE))
+            # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, HEALTHY_COLOR)
+            ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, HEALTHY_COLOR, having_mask[i], VACCINE))
             # print("test123")
             # print(having_mask[i])
             if having_mask[i]:
                 mask.append(i+1)
         else:
-            # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, INFECTED)
-            ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, INFECTED, having_mask[i], VACCINE))
+            # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, INFECTED_COLOR)
+            ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, INFECTED_COLOR, having_mask[i], VACCINE))
             cur_time = time.time()
             infected.append(i + 1)  # The
             infected_queue.append([i + 1, cur_time])
@@ -112,9 +112,9 @@ def update_record(record: dict, curr_infected: list, curr_recovered: list):
 
 def plot_result(record: dict, simulation_number):
     plt.figure(figsize=(15, 8))
-    plt.plot(record["timeline"], record["curr_infected"], color=INFECTED, label="Infected")
-    plt.plot(record["timeline"], record["curr_recovered"], color=RECOVERED, label="Recovered")
-    plt.plot(record["timeline"], record["curr_healthy"], color=HEALTHY, label="Healthy")
+    plt.plot(record["timeline"], record["curr_infected"], color=INFECTED_COLOR, label="Infected")
+    plt.plot(record["timeline"], record["curr_recovered"], color=RECOVERED_COLOR, label="Recovered")
+    plt.plot(record["timeline"], record["curr_healthy"], color=HEALTHY_COLOR, label="Healthy")
     plt.xlabel("Frames elapsed")
     plt.ylabel("Number of cases")
     plt.figtext(0.02, 0.02,
@@ -166,10 +166,11 @@ def refresh_graph(number_infect):
                             if collide[m] in mask:
                                 infected_rate = [0, 1]
                                 mask_list = random.choices(infected_rate, weights=[MASK_PROTECTION_RATE, 1-MASK_PROTECTION_RATE])
+                                # if infected
                                 if mask_list[0]:
                                     # print("check")
                                     # print(mask_list[0])
-                                    canvas.itemconfig(ball_position[collide[m] - 1].image, fill=INFECTED)
+                                    canvas.itemconfig(ball_position[collide[m] - 1].image, fill=INFECTED_COLOR)
                                     # plot_info["total_healthy"] -= len(infected)
                                     infected_time = time.time()
                                     infected.append(collide[m])
@@ -180,7 +181,7 @@ def refresh_graph(number_infect):
                                         max_time = time.time()
                                         max_infect_time = [(number_infect, max_time)]
                             else:
-                                canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED)
+                                canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED_COLOR)
                                 infected_time = time.time()
                                 infected.append(collide[m])
                                 infected_queue.append([collide[m], infected_time])
@@ -195,7 +196,7 @@ def refresh_graph(number_infect):
             while infected_queue and timer-RECOVER_TIME >= infected_queue[0][1]:
                 infected_queue.pop(0)
                 cur_ball = infected.pop(0)
-                canvas.itemconfig(ball_position[cur_ball-1].image, fill=RECOVERED)
+                canvas.itemconfig(ball_position[cur_ball-1].image, fill=RECOVERED_COLOR)
                 recovered.append(cur_ball)
 
         update_record(plot_info, infected, recovered)
@@ -240,6 +241,7 @@ if __name__ == '__main__':
         mask_test()
         max_number_infect = refresh_graph(max_number_infect)
 
+        # go to next simulation
         if max_number_infect[0][0] == 0:
             continue
         else:
