@@ -249,7 +249,7 @@ if __name__ == '__main__':
             plot_result(plot_info, i)
         sloop.append(cur_sloop)
 
-    print("average sloop is {}".format(sum(sloop)/5))
+    print("average sloop is {}".format(sum(sloop)/SIMULATION_NUM))
 
 
 
