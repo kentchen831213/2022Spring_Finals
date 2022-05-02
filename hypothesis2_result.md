@@ -202,7 +202,7 @@ check 99 sloop
 4.5686242948398625
 check 100 sloop
 1.7329753359753957
-### average sloop is 2.4495439824590055
+**average sloop is 2.4495439824590055**
 ```
 
 ![result_1](https://user-images.githubusercontent.com/32189071/166193296-f3331d55-cc1f-4d0d-864e-cbbe0465c1f4.png)
