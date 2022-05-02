@@ -1,5 +1,6 @@
-RATE_MASK = 0.85
+## RATE_MASK = 0.85
 
+```
 check 1 sloop
 2.9060757061226727
 it's current smallest sloop
@@ -202,7 +203,7 @@ check 99 sloop
 check 100 sloop
 1.7329753359753957
 average sloop is 2.4495439824590055
-
+```
 
 ![result_1](https://user-images.githubusercontent.com/32189071/166193296-f3331d55-cc1f-4d0d-864e-cbbe0465c1f4.png)
 
