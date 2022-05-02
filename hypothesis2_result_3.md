@@ -223,5 +223,3 @@ average sloop is 2.989394912052725
 ![result_13](https://user-images.githubusercontent.com/89825015/166196930-45afc90d-7bfa-4f01-b075-870027190f9f.png)
 
 ![result_17](https://user-images.githubusercontent.com/89825015/166196945-53124d79-9500-4aea-9598-728ad40cbb0c.png)
-
-![result_46](https://user-images.githubusercontent.com/89825015/166196953-95de348f-9211-4ad5-9282-92c7c9dfafe9.png)
