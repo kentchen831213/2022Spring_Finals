@@ -434,8 +434,7 @@ Healhty: 8
 Infected: 94
 ```
 **average sloop is 2.802323248187599\
-average healthy rate is 12.16\
-average infected rate is 89.84**
+average healthy rate is 191.79**
 
 ![result_1](https://user-images.githubusercontent.com/32189071/166624951-d89babb9-bba4-432d-99c1-19f17a2a597e.png)
 ![result_2](https://user-images.githubusercontent.com/32189071/166624958-cf3470e7-23f8-4618-a3ef-83b99c3fd9f6.png)
