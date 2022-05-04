@@ -433,8 +433,8 @@ check 100 sloop
 Healhty: 10
 Infected: 92
 ```
-**average sloop is 2.6434499184886544**
-**average healthy rate is 12.61**
+**average sloop is 2.6434499184886544**\n
+**average healthy rate is 12.61**\n
 **average infected rate is 89.39**
 
 
