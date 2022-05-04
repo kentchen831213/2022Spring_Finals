@@ -26,8 +26,8 @@ RATE_MASK = 1.0
 RATE_VACCINE = 0.5
 ```
 **average sloop is 3.2502564139018477\
-average healthy people is 10.21\
-average infected people is 91.79**
+average healthy people is 11.63\
+average infected people is 90.36**
 
 ![result_1](https://user-images.githubusercontent.com/32189071/166627049-476579da-188e-4bf0-aa58-f21725f41fc5.png)
 ![result_2](https://user-images.githubusercontent.com/32189071/166627059-a2e10e2d-be73-40f1-8c06-ee6303784176.png)
