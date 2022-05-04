@@ -433,24 +433,20 @@ check 100 sloop
 Healhty: 8
 Infected: 94
 ```
-**average sloop is 3.043863761722388\
-average healthy rate is 14.06\
-average infected rate is 87.94**
+**average sloop is 2.802323248187599\
+average healthy rate is 12.16\
+average infected rate is 89.84**
+
+![result_1](https://user-images.githubusercontent.com/32189071/166624951-d89babb9-bba4-432d-99c1-19f17a2a597e.png)
+![result_2](https://user-images.githubusercontent.com/32189071/166624958-cf3470e7-23f8-4618-a3ef-83b99c3fd9f6.png)
+![result_3](https://user-images.githubusercontent.com/32189071/166624962-2b0bd54c-1198-46b9-9077-ff7a5fd472e9.png)
+![result_4](https://user-images.githubusercontent.com/32189071/166624983-513db5dc-f185-4bd3-9967-1965e940ab97.png)
+![result_13](https://user-images.githubusercontent.com/32189071/166624992-9fe26376-ee1b-4708-a763-77babe8e8290.png)
 
 
 
 
-![result_1](https://user-images.githubusercontent.com/32189071/166617948-7aac8232-091c-473a-94a3-ba20194569ec.png)
 
-![result_2](https://user-images.githubusercontent.com/32189071/166617958-51df09d3-f8ef-44ce-b77a-50405228eb44.png)
-
-![result_4](https://user-images.githubusercontent.com/32189071/166618023-a3a6f710-4286-4511-b4b1-454ef27a4765.png)
-
-![result_7](https://user-images.githubusercontent.com/32189071/166618032-bc717d6d-a73b-4986-a775-9ee598b0fc86.png)
-
-![result_67](https://user-images.githubusercontent.com/32189071/166618042-ce6457a2-2454-4203-8fac-1e489b871890.png)
-
-![result_73](https://user-images.githubusercontent.com/32189071/166618049-1ccfed10-0f5f-4b3f-8c63-26be0887526d.png)
 
 
 
