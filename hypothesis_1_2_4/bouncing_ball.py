@@ -11,7 +11,7 @@ from math import sqrt
 from collections import deque
 
 HYPOTHESIS = "hypothesis4"
-SIMULATION_NUM = 3
+SIMULATION_NUM = 100
 POPULATION = 100
 INFECTED_CASE = 2
 W_WIDTH = 1000
