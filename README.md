@@ -3,7 +3,7 @@
 
 
 ### Coding descript
-For the hypothesis 1,2 and 4 , we combine them to one python script int the hypothesis1_2_4 folder, user can setting which hypothesis they whant to test, and setting the correspiond parameters on the top of the script. 
+For the hypothesis 1,2 and 4 , we combine them into one python script at the hypothesis_1_2_4 folder, user can setting which hypothesis they whant to test, and setting the correspiond parameters on the top of the script. 
 
 ### hypothesis1
 
