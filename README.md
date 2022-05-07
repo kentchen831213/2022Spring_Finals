@@ -3,7 +3,7 @@
 kentchen831213, cklynn, tessachang
 
 ## Description
-
+We found some works that simulate the spread of Covid 19. Despite earlier attempts to increase simulation accuracy, we believe there is still potential for improvement. Our last experiment will build on the previous two examples by attempting to add more variables to the simulation model. We intend to include the possibility of protection through the use of a facemask or vaccine. Another configuration we want to actualize is a delayed infection, which is based on the fact that persons who become sick do not display symptoms for a few days after becoming infected.
 
 ## Coding descript
 
@@ -106,4 +106,15 @@ We decrease the vaccine protection rate each 5 seconds for 20%, 30%, 40%, 50%, a
 ![image](https://user-images.githubusercontent.com/32189071/167100571-1335336f-06e2-4551-86b7-902da908ce7b.png)
 
 According to our analysis result, the sloop of infected people is bigger with the degradation rate increase. Therefore, we can not reject the hypothesis, the vaccine effectiveness would influence the curve. 
+
+## Reference
+
+Washinton Post (https://www.washingtonpost.com/graphics/2020/world/corona-simulator/)
+
+We found another similar simulation adding facemask as an additional variable. (https://www.healthdata.org/acting-data/why-we-must-continue-wearing-masks-and-social-distancing)
+
+
+
+
+
 
