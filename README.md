@@ -65,8 +65,6 @@ To verify hypothesis 2. We use an extreme set of configuration to minimize the r
 
 ### hypothesis3 Travel bans help mitigate the spread of infection
 We want to check if travel restrictions serve to prevent the speed of the spread of the disease.
-![image](https://user-images.githubusercontent.com/32189071/167099676-94ece0b8-7e27-41c8-9ae6-d98114825ccd.png)
-![image(https://github.com/kentchen831213/2022Spring_Finals/blob/main/hypothesis3/result_graph/plot_0.png)
 
 
 ### hypothesis4 will vaccine effectiveness degradation affect curve-flattening?
