@@ -66,10 +66,10 @@ To verify hypothesis 2. We use an extreme set of configuration to minimize the r
 ### hypothesis3 Travel bans help mitigate the spread of infection
 We want to check if travel restrictions serve to prevent the speed of the spread of the disease.
 20 travelers/5 seconds
-![graph_20](https://user-images.githubusercontent.com/91043767/167240361-9a277823-0111-4965-9b95-59f49197b08b.png)
+![graph_20](https://user-images.githubusercontent.com/91043767/167240361-9a277823-0111-4965-9b95-59f49197b08b.png) ![graph_15](https://user-images.githubusercontent.com/91043767/167240348-fbea8907-2a78-417d-ac97-f108dd0cb4ec.png)
 
 15 travelers/5 seconds
-![graph_15](https://user-images.githubusercontent.com/91043767/167240348-fbea8907-2a78-417d-ac97-f108dd0cb4ec.png)
+
 
 10 travelers/5 seconds
 ![graph_10](https://user-images.githubusercontent.com/91043767/167240345-4fced523-d628-4eaa-9e7e-c4a6817ba134.png)
