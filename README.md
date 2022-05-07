@@ -7,7 +7,7 @@ kentchen831213, cklynn, tessachang
 
 ## Coding descript
 
-###For hypotheses 1,2 and 4:
+### For hypotheses 1,2 and 4:
 We combine them into one python script(bouncing_ball.py) in the hypothesis_1_2_4 folder. Users can set which hypothesis they want to test and set the number of corresponding parameters on the top of the script. 
 
 Hypothesis1-
@@ -19,19 +19,19 @@ Users can set RATE_MASK to see the relationship between the coverage rate of mas
 Hypothesis4-
 Users can set different numbers of DECREASE_RATE to test. 
 
-###For hypotheses 3:
-####Users can run main.py
+### For hypotheses 3:
+#### Users can run main.py
 This program will ask the users to input (1)number of simulations the users want to run (2) number of people to travel for a certain period of time.
 This will run the simulation and output the result in the result.csv file and also plotting the real time graph at the same time.
 For example: you can input 1 for number of simulations you want to do just to see how it runs and also input 5 for number of people traveling for a certain period of time
 
 
-####Users can run bouncing_ball_hp3.py
+#### Users can run bouncing_ball_hp3.py
 This program will ask the users to input (1)number of simulations the users want to run (2) number of people to travel for a certain period of time.
 This will run the simulation and output the result in the result.csv file
 For example: you can input 100 for number of simulations you want to do and input 5 for number of people traveling for a certain period of time
 
-####Users can run hist_hp3.py
+#### Users can run hist_hp3.py
 After running the simulations, the result csv file would be stored and users can run this program to show some statistics and plot the histogram of (number of people infected/second) when each simulation reach the peak of infected people for the simulations.
 This program will ask the users to input the name of the csv file
 For example: after runnning simulations, you can input "result.csv". The users can input "result_0.csv", plotting the histogram for the simulations already ran by us. "result_0.csv" contains result for running a 100 simulations for 0 people traveling per certain period of time.
