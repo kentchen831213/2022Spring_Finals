@@ -22,7 +22,7 @@ Users can set different numbers of DECREASE_RATE to test.
 ### For hypotheses 3:
 #### Users can run main.py
 This program will ask the users to input (1)number of simulations the users want to run (2) number of people to travel for a certain period of time.
-This will run the simulation and output the result in the result.csv file and also plotting the real time graph at the same time.
+After running the simulations, it will output the result to the result.csv file and also plotting the real time graph at the same time.
 For example: you can input 1 for number of simulations you want to do just to see how it runs and also input 5 for number of people traveling for a certain period of time
 
 
