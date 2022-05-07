@@ -19,7 +19,7 @@ Users can set RATE_MASK to see the relationship between the coverage rate of mas
 Hypothesis4-
 Users can set different numbers of DECREASE_RATE to test. 
 
-### For hypotheses 3:
+### For hypothesis 3:
 #### Users can run main.py
 This program will ask the users to input (1)number of simulations the users want to run (2) number of people to travel for a certain period of time.
 After running the simulations, it will output the result to the result.csv file and also plotting the real time graph at the same time.
@@ -65,6 +65,9 @@ To verify hypothesis 2. We use an extreme set of configuration to minimize the r
 
 ### hypothesis3 Travel bans help mitigate the spread of infection
 We want to check if travel restrictions serve to prevent the speed of the spread of the disease.
+![image](https://user-images.githubusercontent.com/32189071/167099676-94ece0b8-7e27-41c8-9ae6-d98114825ccd.png)
+![image(https://github.com/kentchen831213/2022Spring_Finals/blob/main/hypothesis3/result_graph/plot_0.png)
+
 
 ### hypothesis4 will vaccine effectiveness degradation affect curve-flattening?
 
