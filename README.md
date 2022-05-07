@@ -65,6 +65,11 @@ To verify hypothesis 2. We use an extreme set of configuration to minimize the r
 
 ### hypothesis3 Travel bans help mitigate the spread of infection
 We want to check if travel restrictions serve to prevent the speed of the spread of the disease.
+To test this hypothesis, we keep the aummptions simple. We assume mask wearing rate to be 0, vaccination coverage rate to be 0, simulation time to be 100, initial healthy population to be 100, initial infected population to be 2.
+For travelers, the initial test was to set it to 20. Then we decrease 5 for each test, each test running the simulation 100 times. The following are the results.
+
+<img width="628" alt="截圖 2022-05-07 上午12 52 59" src="https://user-images.githubusercontent.com/91043767/167240628-0382a526-ef4d-4091-af0a-6cc917a681ea.png">
+
 
 <img width="614" alt="截圖 2022-05-07 上午12 50 55" src="https://user-images.githubusercontent.com/91043767/167240560-40087b19-5085-4ce7-bc05-52d95e1d4255.png">
 
