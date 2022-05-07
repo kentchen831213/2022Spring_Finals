@@ -36,6 +36,7 @@ After running the simulations, the result csv file would be stored and users can
 This program will ask the users to input the name of the csv file. 
 For example: after runnning simulations, you can input "result.csv". The users can input "result_0.csv", plotting the histogram for the simulations already ran by us. "result_0.csv" contains result for running a 100 simulations for 0 people traveling per certain period of time.
 
+## Hypotheses
 
 ### hypothesis1 Assume wearing a facemask is mandated, a sweet spot for vaccination coverage rate exists
 In hypothesis 1, we configure the simulation with following settings:
