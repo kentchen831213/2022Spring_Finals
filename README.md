@@ -1,4 +1,7 @@
 # Covid 19 epidemic simulation
+### Team Member(s):
+kentchen831213, cklynn, tessachang
+
 ## Description
 
 
