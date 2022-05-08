@@ -10,8 +10,8 @@ import numpy as np
 from math import sqrt
 from collections import deque
 
-HYPOTHESIS = "hypothesis4"
-SIMULATION_NUM = 100
+HYPOTHESIS = "hypothesis1"
+SIMULATION_NUM = 2
 POPULATION = 100
 INFECTED_CASE = 2
 W_WIDTH = 1000
@@ -41,9 +41,15 @@ def get_random(base_speed: int, exclude_zero=True) -> int:
     :param: Base_speed: a non-zero integer given by the user
     :param: Include_zero: To include zero in the random pool or not. By default False
     :return: An int for moving value
-    TODO: If a numpy.random.randint() might speed up the process
-    TODO: A try, exception might needed if the base_speed was a negative number or invalid input(str, special char)
-    TODO: A ball only moves horizontally or vertically still exists, need some help for solving this issue
+    >>> test_1 = get_random(5, True)
+    >>> test_1 < 0 or test_1 > 0
+    True
+    >>> test_2 = get_random(2, False)
+    >>> test_2 >= 0 or test_2 <= 0
+    True
+    >>> test_2 = get_random(2, False)
+    >>> len(str(test_2)) > 0
+    True
     """
     random_speed_list = list(range(-base_speed, base_speed + 1))
     if exclude_zero:
@@ -56,7 +62,7 @@ def close_window(root):
     """
     This function is to close the simulation window
     :param root: the window to simulate Epidemic transmission
-    :return:
+    :return: None
     """
     root.destroy()
 
@@ -68,10 +74,10 @@ def vaccine_test():
     :return: None
     """
     # all people wearing mask
-    mask_list = [1]*(POPULATION+INFECTED_CASE)
+    mask_list = [1] * (POPULATION + INFECTED_CASE)
     # taking vaccine or not
     rate_list = [0, 1]
-    vaccine_list = random.choices(rate_list, weights=[1-RATE_VACCINE, RATE_VACCINE], k=POPULATION+INFECTED_CASE)
+    vaccine_list = random.choices(rate_list, weights=[1 - RATE_VACCINE, RATE_VACCINE], k=POPULATION + INFECTED_CASE)
     prepare_graph(canvas, mask_list, vaccine_list)
 
 
@@ -82,18 +88,17 @@ def mask_test():
     :return: None
     """
     # all people not taking vaccine
-    vaccine_list = [0]*(POPULATION+INFECTED_CASE)
+    vaccine_list = [0] * (POPULATION + INFECTED_CASE)
     # wearing mask or not
     rate_list = [0, 1]
     # define a mask_list
-    mask_list = random.choices(rate_list, weights=[1-RATE_MASK, RATE_MASK], k=POPULATION+INFECTED_CASE)
+    mask_list = random.choices(rate_list, weights=[1 - RATE_MASK, RATE_MASK], k=POPULATION + INFECTED_CASE)
     prepare_graph(canvas, mask_list, vaccine_list)
 
 
 # hypothesis4: Will vaccine effectiveness degradation affect curve-flattening?
 def decrease_protect_test():
-    """
-    This function is prepare all the parameters for hypothesis4(vaccine protection decrease test)
+    """This function is prepare all the parameters for hypothesis4(vaccine protection decrease test)
     :return: None
     """
     # all people wearing mask
@@ -105,7 +110,12 @@ def decrease_protect_test():
 
 
 def prepare_graph(curcanvas, having_mask, having_vaccine):
-
+    """This function creates all graphical objects in the simulation window
+    :param curcanvas: The canvas that is currently rendered in the window
+    :param having_mask: A list tracking the ball is masked
+    :param having_vaccine: A list tracking the ball is vaccinated
+    :return: None
+    """
     for i in range(POPULATION + INFECTED_CASE):
         x_coord, y_coord = random.randint(BALL_OFFSET, W_WIDTH - BALL_SIZE - 1), \
                            random.randint(BALL_OFFSET, W_HEIGHT - BALL_SIZE - 1)
@@ -115,17 +125,21 @@ def prepare_graph(curcanvas, having_mask, having_vaccine):
 
             # if taking vaccine, put the current time and protection rate
             if having_vaccine[i]:
-                ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, HEALTHY, having_mask[i], having_vaccine[i], time.time(), VACCINE_PROTECTION_RATE))
+                ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, HEALTHY, having_mask[i],
+                                          having_vaccine[i], time.time(), VACCINE_PROTECTION_RATE))
             else:
-                ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, HEALTHY, having_mask[i], having_vaccine[i], 0, 0))
+                ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, HEALTHY, having_mask[i],
+                                          having_vaccine[i], 0, 0))
 
             if having_mask[i]:
-                mask.append(i+1)
+                mask.append(i + 1)
             if having_vaccine[i]:
-                vaccine.append(i+1)
+                vaccine.append(i + 1)
         else:
             # ball_position[i] = Ball(canvas, x_coord, y_coord, 10, dx, dy, INFECTED)
-            ball_position.append(Ball(curcanvas, x_coord, y_coord, 10, dx, dy, INFECTED, having_mask[i], having_vaccine[i], time.time(), VACCINE_PROTECTION_RATE))
+            ball_position.append(
+                Ball(curcanvas, x_coord, y_coord, 10, dx, dy, INFECTED, having_mask[i], having_vaccine[i], time.time(),
+                     VACCINE_PROTECTION_RATE))
             cur_time = time.time()
             infected.append(i + 1)  # The
             infected_queue.append([i + 1, cur_time])
@@ -136,23 +150,28 @@ def prepare_graph(curcanvas, having_mask, having_vaccine):
         if len(overlap_balls) >= 2:  # The length of tuple suggested an overlap issue between two or more balls
             # Move the last rendered ball to a new random location
             curcanvas.moveto(overlap_balls[1],
-                          x=random.randint(BALL_OFFSET, W_WIDTH - BALL_SIZE - 1),
-                          y=random.randint(BALL_OFFSET, W_HEIGHT - BALL_SIZE - 1))
+                             x=random.randint(BALL_OFFSET, W_WIDTH - BALL_SIZE - 1),
+                             y=random.randint(BALL_OFFSET, W_HEIGHT - BALL_SIZE - 1))
 
 
 def update_record(record: dict, curr_infected: list, curr_recovered: list):
+    """Update the plot_info global variable in the main function
+    :param record: The plot_info's aliased name in function
+    :param curr_infected: Key "curr_infected" in the plot_info dictionary record as list
+    :param curr_recovered: Key "curr_recovered" in the plot_info dictionary recorded as list
+    """
     record["frame"] += 1
     record["timeline"].append(record["frame"])
     record["curr_infected"].append(len(curr_infected))
     record["curr_recovered"].append(len(curr_recovered))
-    record["curr_healthy"].append((POPULATION+INFECTED_CASE)-len(curr_infected)-len(curr_recovered))
+    record["curr_healthy"].append((POPULATION + INFECTED_CASE) - len(curr_infected) - len(curr_recovered))
 
 
 def refresh_graph(number_infect, total_infected_people, hy4):
-    """
+    """The function that updates each frame of the simulation animation
     :param number_infect: the number of infected people
     :param total_infected_people:
-    :return: [max_infect_time], calculate the max infected people and correspond time,
+    :return: [max_infect_time], calculate the max infected people and correspond time
     """
     max_infect_time = [(0, 0)]
     while len(infected) > 0:
@@ -182,13 +201,15 @@ def refresh_graph(number_infect, total_infected_people, hy4):
                             # if people wearing mask
                             if collide[m] in mask:
                                 infected_rate = [0, 1]
-                                mask_list = random.choices(infected_rate, weights=[MASK_PROTECTION_RATE, 1-MASK_PROTECTION_RATE])
+                                mask_list = random.choices(infected_rate,
+                                                           weights=[MASK_PROTECTION_RATE, 1 - MASK_PROTECTION_RATE])
                                 # if peopel wearning mask but still be infected
                                 if mask_list[0]:
                                     # if people taking vaccine
                                     if collide[m] in vaccine:
-                                        cur_protect_rate = ball_position[collide[m]-1].protect_rate
-                                        vaccine_list = random.choices(infected_rate, weights=[cur_protect_rate, 1-cur_protect_rate])
+                                        cur_protect_rate = ball_position[collide[m] - 1].protect_rate
+                                        vaccine_list = random.choices(infected_rate,
+                                                                      weights=[cur_protect_rate, 1 - cur_protect_rate])
                                         # if people taking vaccine still be infected
                                         if vaccine_list[0]:
                                             canvas.itemconfig(ball_position[collide[m] - 1].image, fill=INFECTED)
@@ -202,7 +223,7 @@ def refresh_graph(number_infect, total_infected_people, hy4):
                                                 max_time = time.time()
                                                 max_infect_time = [(number_infect, max_time)]
                                     else:
-                                        canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED)
+                                        canvas.itemconfig(ball_position[collide[m] - 1].image, fill=INFECTED)
                                         infected_time = time.time()
                                         infected.append(collide[m])
                                         total_infected_people += 1
@@ -212,7 +233,7 @@ def refresh_graph(number_infect, total_infected_people, hy4):
                                             max_time = time.time()
                                             max_infect_time = [(number_infect, max_time)]
                             else:
-                                canvas.itemconfig(ball_position[collide[m]-1].image, fill=INFECTED)
+                                canvas.itemconfig(ball_position[collide[m] - 1].image, fill=INFECTED)
                                 infected_time = time.time()
                                 infected.append(collide[m])
                                 total_infected_people += 1
@@ -223,20 +244,20 @@ def refresh_graph(number_infect, total_infected_people, hy4):
                                     max_infect_time = [(number_infect, max_time)]
 
             # infected people while be recovered in 8 sec
-            while infected_queue and timer-RECOVER_TIME >= infected_queue[0][1]:
+            while infected_queue and timer - RECOVER_TIME >= infected_queue[0][1]:
                 infected_queue.pop(0)
                 cur_ball = infected.pop(0)
-                canvas.itemconfig(ball_position[cur_ball-1].image, fill=RECOVERED)
+                canvas.itemconfig(ball_position[cur_ball - 1].image, fill=RECOVERED)
                 recovered.append(cur_ball)
 
             # hypothesis 4, decrease the protection rate of taking vaccine people every 5 seconds
             if hy4:
                 cur_time = time.time()
                 for idx in range(len(vaccine)):
-                    if cur_time-ball_position[vaccine[idx]-1].time >= 5:
-                        if ball_position[vaccine[idx]-1].protect_rate > DECREASE_RATE:
+                    if cur_time - ball_position[vaccine[idx] - 1].time >= 5:
+                        if ball_position[vaccine[idx] - 1].protect_rate > DECREASE_RATE:
                             ball_position[vaccine[idx] - 1].time = cur_time
-                            ball_position[vaccine[idx]-1].protect_rate -= DECREASE_RATE
+                            ball_position[vaccine[idx] - 1].protect_rate -= DECREASE_RATE
 
         update_record(plot_info, infected, recovered)
         window.update()
@@ -247,6 +268,12 @@ def refresh_graph(number_infect, total_infected_people, hy4):
 
 
 def plot_result(record: dict, simulation_number, key):
+    """The function draws a line plot for three variables in the simulation, the healthy, the infected and the
+    recovered
+    :param record: The global variable's aliased name in the function
+    :param simulation_number: The number of simulation given by the user in SIMULATION_NUM
+    :param key: The current simulation sequence number
+    """
     plt.figure(figsize=(15, 8))
     plt.plot(record["timeline"], record["curr_infected"], color=INFECTED, label="Infected")
     plt.plot(record["timeline"], record["curr_recovered"], color=RECOVERED, label="Recovered")
@@ -263,15 +290,18 @@ def plot_result(record: dict, simulation_number, key):
     elif key == "hypothesis4":
         plt.figtext(0.01, 0.01,
                     s=f"Vaccine coverage rate: {RATE_VACCINE}\nVaccine protection rate: {VACCINE_PROTECTION_RATE}\n"
-                    f"Protection rate decreases each 5 seconds\nDecrease rate: {DECREASE_RATE}")
+                      f"Protection rate decreases each 5 seconds\nDecrease rate: {DECREASE_RATE}")
     plt.title("Initial healthy: {0}\nInitial infected: {1}".format(POPULATION, INFECTED_CASE), loc="left")
-    plt.title("Change over frames {}".format(simulation_number+1))
+    plt.title("Change over frames {}".format(simulation_number + 1))
     plt.legend(bbox_to_anchor=(1.01, 1))
-    plt.savefig("result_graph/{}_result_{}.png".format(key, simulation_number+1))
+    plt.savefig("result_graph/{}_result_{}.png".format(key, simulation_number + 1))
 
 
 def plot_simulation_result(key):
-
+    """ This function print out the summarized simulation result at the end of simulation
+    :param key: The current simulation sequence number
+    :return: None
+    """
     if key == "hypothesis1":
         print("hypothesis1 summary:")
         print("the cover rate of vaccine is {}".format(RATE_VACCINE))
@@ -284,7 +314,6 @@ def plot_simulation_result(key):
 
     #  plot the simulation result for each hypothesis
     plt.hist(sloop, bins=7, density=True)
-    plt.figure()
     plt.show()
     print("{} person be infected every seconds".format(sum(sloop) / SIMULATION_NUM))
     print("average healthy rate is {}".format(sum(avg_healthy) / SIMULATION_NUM))
@@ -300,8 +329,8 @@ if __name__ == '__main__':
 
     for i in range(SIMULATION_NUM):
         plot_info = {"frame": 0, "timeline": [],
-                    "curr_infected": [], "curr_recovered": [],
-                    "total_healthy": POPULATION, "curr_healthy": []}
+                     "curr_infected": [], "curr_recovered": [],
+                     "total_healthy": POPULATION, "curr_healthy": []}
 
         # Initialize a window
         window = Tk()
@@ -341,14 +370,12 @@ if __name__ == '__main__':
         if max_number_infect[0][0] == 0:
             continue
         else:
-            cur_sloop = (max_number_infect[0][0]-INFECTED_CASE)/(max_number_infect[0][1]-start_time)
+            cur_sloop = (max_number_infect[0][0] - INFECTED_CASE) / (max_number_infect[0][1] - start_time)
             if len(sloop) == 0 or cur_sloop > max(sloop):
                 plot_result(plot_info, i, HYPOTHESIS)
-            avg_healthy.append(POPULATION+INFECTED_CASE-total_infected_case)
+            avg_healthy.append(POPULATION + INFECTED_CASE - total_infected_case)
             avg_infected.append(total_infected_case)
             sloop.append(cur_sloop)
 
     # plot simulation result for each hypothesis
     plot_simulation_result(HYPOTHESIS)
-
-
